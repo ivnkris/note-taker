@@ -5,4 +5,6 @@ const getNotes = (req, res) => {
   res.json(data);
 };
 
+const postNote = (req, res) => {};
+
 module.exports = { getNotes };
