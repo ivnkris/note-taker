@@ -1,19 +1,19 @@
 const fs = require("fs");
 
 const getNotes = (req, res) => {
-  const data = JSON.parse(fs.readFile("../../db/db.json"));
+  const data = fs.readFile("../../db/db.json");
   res.json(data);
 };
 
 const postNote = (req, res) => {
-  const data = JSON.parse(fs.readFile("../db/db.json"));
+  const data = fs.readFile("../db/db.json");
 
   const note = req.body;
 
   data.push(note);
   res.json(note);
 
-  const errorHandling = (err) => {
+  const onFileWrite = (err) => {
     if (err) {
       console.log(err);
     } else {
@@ -21,7 +21,7 @@ const postNote = (req, res) => {
     }
   };
 
-  fs.writeFile("../db/db.json", data, errorHandling);
+  fs.writeFile("../db/db.json", data, onFileWrite);
 };
 
 module.exports = { getNotes, postNote };
