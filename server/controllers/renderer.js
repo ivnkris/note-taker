@@ -4,4 +4,8 @@ const renderIndex = (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 };
 
-module.exports = { renderIndex };
+const renderNotes = (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
+};
+
+module.exports = { renderIndex, renderNotes };
