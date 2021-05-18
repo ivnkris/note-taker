@@ -2,18 +2,17 @@ const fs = require("fs");
 const path = require("path");
 
 const getNotes = (req, res) => {
-  const onFileRead = (err) => {
+  const onFileRead = (err, data) => {
     if (err) {
       console.log(err);
+    } else {
+      return data;
     }
   };
 
   const filePath = path.join(__dirname, "../db/db.json");
-  console.log(filePath);
-  const fileData = fs.readFile(filePath, onFileRead);
-  console.log(fileData);
-  const data = [{ title: "Example title", text: "Example text" }];
-  res.send(data);
+  const fileData = JSON.parse(fs.readFileSync(filePath, onFileRead));
+  res.send(fileData);
 };
 
 const postNote = (req, res) => {
