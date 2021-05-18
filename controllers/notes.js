@@ -3,7 +3,7 @@ const path = require("path");
 
 const getNotes = (req, res) => {
   const data = fs.readFile(path.join(__dirname, "../db/db.json"));
-  res.json(data);
+  res.send(data);
 };
 
 const postNote = (req, res) => {
@@ -12,7 +12,7 @@ const postNote = (req, res) => {
   const note = req.body;
 
   data.push(note);
-  res.json(note);
+  res.send(note);
 
   const onFileWrite = (err) => {
     if (err) {
