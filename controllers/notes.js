@@ -1,27 +1,29 @@
 const fs = require("fs");
 const path = require("path");
 
-const getNotes = (req, res) => {
-  const onFileRead = (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      return data;
-    }
-  };
+const onFileRead = (err, data) => {
+  if (err) {
+    console.log(err);
+  } else {
+    return data;
+  }
+};
 
-  const filePath = path.join(__dirname, "../db/db.json");
-  const fileData = JSON.parse(fs.readFileSync(filePath, onFileRead));
+const dataBasePath = path.join(__dirname, "../db/db.json");
+
+const getNotes = (req, res) => {
+  const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
   res.send(fileData);
 };
 
 const postNote = (req, res) => {
-  const data = fs.readFile(path.join(__dirname, "../db/db.json"));
-
   const note = req.body;
+  const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
 
-  data.push(note);
+  fileData.push(note);
   res.send(note);
+
+  const fileDataString = JSON.stringify(fileData);
 
   const onFileWrite = (err) => {
     if (err) {
@@ -31,7 +33,11 @@ const postNote = (req, res) => {
     }
   };
 
-  fs.writeFile(path.join(__dirname, "../db/db.json"), data, onFileWrite);
+  fs.writeFileSync(
+    path.join(__dirname, "../db/db.json"),
+    fileDataString,
+    onFileWrite
+  );
 };
 
 module.exports = { getNotes, postNote };
