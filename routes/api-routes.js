@@ -4,7 +4,7 @@ const { getNotes, postNote } = require("../controllers/notes");
 
 const router = Router();
 
-router.get("/api/notes", getNotes);
-router.post("api/notes", postNote);
+router.get("/notes", getNotes);
+router.post("/notes", postNote);
 
 module.exports = router;
