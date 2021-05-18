@@ -1,8 +1,8 @@
-const express = require("express");
+const { Router } = require("express");
 
 const { renderIndex, renderNotes } = require("../controllers/renderer");
 
-const router = express.Router();
+const router = Router();
 
 router.get("/", renderIndex);
 router.get("/notes", renderNotes);
