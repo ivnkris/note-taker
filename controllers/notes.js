@@ -1,12 +1,13 @@
 const fs = require("fs");
+const path = require("path");
 
 const getNotes = (req, res) => {
-  const data = fs.readFile("../../db/db.json");
+  const data = fs.readFile(path.join(__dirname, "../db/db.json"));
   res.json(data);
 };
 
 const postNote = (req, res) => {
-  const data = fs.readFile("../db/db.json");
+  const data = fs.readFile(path.join(__dirname, "../db/db.json"));
 
   const note = req.body;
 
@@ -21,7 +22,7 @@ const postNote = (req, res) => {
     }
   };
 
-  fs.writeFile("../db/db.json", data, onFileWrite);
+  fs.writeFile(path.join(__dirname, "../db/db.json"), data, onFileWrite);
 };
 
 module.exports = { getNotes, postNote };
