@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
+// handle callback function on file read from db.json
 const onFileRead = (err, data) => {
   if (err) {
     console.log(err);
@@ -10,6 +11,7 @@ const onFileRead = (err, data) => {
   }
 };
 
+// handle callback function on file write into db.json
 const onFileWrite = (err) => {
   if (err) {
     console.log(err);
@@ -18,13 +20,16 @@ const onFileWrite = (err) => {
   }
 };
 
+// path to database
 const dataBasePath = path.join(__dirname, "../db/db.json");
 
+// function to serve notes from the database
 const getNotes = (req, res) => {
   const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
   res.send(fileData);
 };
 
+// function to add note to the database
 const postNote = (req, res) => {
   const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
   const id = uuidv4();
@@ -39,6 +44,7 @@ const postNote = (req, res) => {
   fs.writeFileSync(dataBasePath, fileDataString, onFileWrite);
 };
 
+// function to delete note from the database
 const deleteNote = (req, res) => {
   noteId = req.params.id;
 
