@@ -35,11 +35,25 @@ const postNote = (req, res) => {
 
   const fileDataString = JSON.stringify(fileData);
 
-  fs.writeFileSync(
-    path.join(__dirname, "../db/db.json"),
-    fileDataString,
-    onFileWrite
-  );
+  fs.writeFileSync(dataBasePath, fileDataString, onFileWrite);
 };
 
-module.exports = { getNotes, postNote };
+const deleteNote = (req, res) => {
+  noteId = req.params.id;
+
+  let fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
+
+  const onDelete = (note, index) => {
+    if (note.id === noteId) {
+      fileData.splice(index, 1);
+    }
+  };
+
+  fileData.forEach(onDelete);
+  const deletedNoteDataString = JSON.stringify(fileData);
+
+  fs.writeFileSync(dataBasePath, deletedNoteDataString, onFileWrite);
+  res.send(fileData);
+};
+
+module.exports = { getNotes, postNote, deleteNote };
