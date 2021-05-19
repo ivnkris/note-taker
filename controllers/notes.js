@@ -19,13 +19,14 @@ const onFileWrite = (err) => {
 };
 
 const dataBasePath = path.join(__dirname, "../db/db.json");
-const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
 
 const getNotes = (req, res) => {
+  const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
   res.send(fileData);
 };
 
 const postNote = (req, res) => {
+  const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
   const id = uuidv4();
   const note = req.body;
   note.id = id;
