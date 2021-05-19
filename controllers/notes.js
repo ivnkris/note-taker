@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 const onFileRead = (err, data) => {
   if (err) {
@@ -9,29 +10,30 @@ const onFileRead = (err, data) => {
   }
 };
 
+const onFileWrite = (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("note successfully saved");
+  }
+};
+
 const dataBasePath = path.join(__dirname, "../db/db.json");
+const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
 
 const getNotes = (req, res) => {
-  const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
   res.send(fileData);
 };
 
 const postNote = (req, res) => {
+  const id = uuidv4();
   const note = req.body;
-  const fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
+  note.id = id;
 
   fileData.push(note);
   res.send(note);
 
   const fileDataString = JSON.stringify(fileData);
-
-  const onFileWrite = (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("note successfully saved");
-    }
-  };
 
   fs.writeFileSync(
     path.join(__dirname, "../db/db.json"),
