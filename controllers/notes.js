@@ -41,19 +41,19 @@ const postNote = (req, res) => {
 const deleteNote = (req, res) => {
   noteId = req.params.id;
 
-  let fileData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
+  let noteDeleteData = JSON.parse(fs.readFileSync(dataBasePath, onFileRead));
 
   const onDelete = (note, index) => {
     if (note.id === noteId) {
-      fileData.splice(index, 1);
+      noteDeleteData.splice(index, 1);
     }
   };
 
-  fileData.forEach(onDelete);
-  const deletedNoteDataString = JSON.stringify(fileData);
+  noteDeleteData.forEach(onDelete);
+  const deletedNoteDataString = JSON.stringify(noteDeleteData);
 
   fs.writeFileSync(dataBasePath, deletedNoteDataString, onFileWrite);
-  res.send(fileData);
+  res.send(noteDeleteData);
 };
 
 module.exports = { getNotes, postNote, deleteNote };
